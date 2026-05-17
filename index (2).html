@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>butSchool — Английский язык онлайн</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Raleway:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:        #0d1b2e;
+  --navy-2:      #142238;
+  --navy-3:      #1a2d47;
+  --navy-4:      #203555;
+  --gold:        #c9a84c;
+  --gold-light:  #e2c97e;
+  --gold-pale:   #f5e9c5;
+  --white:       #ffffff;
+  --off-white:   #f8f6f0;
+  --off-white-2: #ede9df;
+  --text-dark:   #0d1b2e;
+  --text-muted:  #6b7a8d;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--off-white);color:var(--text-dark);font-family:'Manrope',sans-serif;overflow-x:hidden;}
+
+/* NAV */
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 80px;height:70px;position:fixed;width:100%;top:0;z-index:200;
+  transition:background .35s,box-shadow .35s;
+}
+nav.scrolled{background:rgba(13,27,46,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(201,168,76,.12);}
+.logo{font-family:'Raleway',sans-serif;font-size:20px;font-weight:800;color:var(--white);text-decoration:none;}
+.logo span{color:var(--gold);}
+nav ul{list-style:none;display:flex;gap:32px;align-items:center;}
+nav ul a{text-decoration:none;color:rgba(255,255,255,.6);font-size:14px;font-weight:400;transition:color .2s;}
+nav ul a:hover{color:var(--white);}
+.nav-cta{background:var(--gold)!important;color:var(--navy)!important;padding:10px 24px;border-radius:8px;font-weight:600!important;transition:background .2s,transform .2s!important;}
+.nav-cta:hover{background:var(--gold-light)!important;transform:translateY(-2px);}
+
+/* TICKER */
+.ticker{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:200;
+  background:rgba(13,27,46,.94);backdrop-filter:blur(14px);
+  border:1px solid rgba(201,168,76,.2);border-radius:100px;padding:10px 24px;
+  display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6);
+  box-shadow:0 8px 32px rgba(0,0,0,.35);white-space:nowrap;
+}
+.ticker-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulse 2s infinite;}
+.ticker-count{font-weight:700;color:var(--gold);font-size:15px;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;padding:120px 24px 80px;
+}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(155deg,#060f1c 0%,#0d1b2e 40%,#0f2240 75%,#0a1728 100%);}
+.hero-bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(201,168,76,.11) 1px, transparent 1px);
+  background-size:36px 36px;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(26,60,90,.45) 0%, transparent 70%);
+}
+.hero-rings{position:absolute;inset:0;z-index:1;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.glow-center{position:absolute;width:800px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 60%);top:50%;left:50%;transform:translate(-50%,-60%);z-index:1;}
+
+.hero-inner{position:relative;z-index:2;max-width:820px;margin:0 auto;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);
+  color:var(--gold-light);font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  padding:7px 18px;border-radius:6px;margin-bottom:36px;animation:fadeUp .9s ease both;
+}
+.hero-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.hero-title{
+  font-family:'Raleway',sans-serif;font-size:66px;font-weight:800;
+  color:var(--white);line-height:1.05;margin-bottom:24px;letter-spacing:-1px;
+  animation:fadeUp .9s .1s ease both;
+}
+.hero-title em{font-style:italic;color:var(--gold);display:block;font-weight:700;}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:520px;margin:0 auto 44px;font-weight:300;animation:fadeUp .9s .2s ease both;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s .3s ease both;}
+.btn-main{background:var(--gold);color:var(--navy);padding:16px 34px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:transform .25s,box-shadow .25s,background .2s;display:inline-block;font-family:'Manrope',sans-serif;}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,168,76,.35);background:var(--gold-light);}
+.btn-ghost{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);padding:16px 34px;border-radius:10px;font-size:15px;font-weight:400;text-decoration:none;border:1px solid rgba(255,255,255,.14);transition:background .2s,border-color .2s;display:inline-block;}
+.btn-ghost:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.28);}
+
+/* STATS */
+.hero-stats{
+  display:flex;margin:60px auto 0;
+  border:1px solid rgba(201,168,76,.15);border-radius:16px;
+  background:rgba(255,255,255,.04);backdrop-filter:blur(20px);
+  overflow:hidden;animation:fadeUp .9s .4s ease both;max-width:700px;
+}
+.stat{padding:28px 0;text-align:center;flex:1;}
+.stat+.stat{border-left:1px solid rgba(255,255,255,.07);}
+.stat-n{font-family:'Raleway',sans-serif;font-size:30px;font-weight:700;color:var(--gold);letter-spacing:-.5px;display:block;}
+.stat-l{font-size:12px;color:rgba(255,255,255,.4);margin-top:5px;font-weight:400;display:block;}
+
+/* VISUAL STRIP */
+.visual-strip{background:var(--navy);padding:64px 0;overflow:hidden;}
+.visual-strip-inner{max-width:1200px;margin:0 auto;padding:0 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.visual-card{border-radius:16px;overflow:hidden;position:relative;background:var(--navy-3);border:1px solid rgba(201,168,76,.1);height:200px;display:flex;align-items:center;justify-content:center;transition:transform .3s;}
+.visual-card:hover{transform:translateY(-5px);}
+.visual-card svg{width:100%;height:100%;position:absolute;inset:0;}
+.visual-card-label{position:relative;z-index:2;text-align:center;color:var(--white);}
+.visual-card-label strong{display:block;font-size:16px;font-weight:700;font-family:'Raleway',sans-serif;margin-bottom:4px;}
+.visual-card-label span{font-size:12px;color:rgba(255,255,255,.5);font-weight:400;}
+
+/* SECTION BASE */
+.section{padding:96px 0;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 80px;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.s-title{font-family:'Raleway',sans-serif;font-size:38px;font-weight:800;color:var(--navy);line-height:1.18;margin-bottom:52px;letter-spacing:-.5px;}
+.s-title-white{color:var(--white);}
+
+/* HOW */
+.how{background:var(--off-white);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--off-white-2);border:1px solid var(--off-white-2);border-radius:18px;overflow:hidden;}
+.step{background:var(--off-white);padding:36px 28px;transition:background .25s;}
+.step:hover{background:var(--white);}
+.step-num{width:52px;height:52px;border-radius:12px;background:var(--navy);color:var(--gold);font-family:'Raleway',sans-serif;font-size:22px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.step-title{font-family:'Raleway',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.step-desc{font-size:13px;color:var(--text-muted);line-height:1.7;font-weight:400;}
+.step-free{display:inline-block;margin-top:12px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:5px;}
+
+/* COURSES */
+.courses-sec{background:var(--navy);}
+.courses-sec .s-title{color:var(--white);}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.cc{border-radius:20px;padding:36px 30px;position:relative;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;border:1px solid rgba(255,255,255,.06);}
+.cc:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(0,0,0,.35);}
+.cc-1{background:var(--navy-3);}
+.cc-2{background:var(--navy-4);}
+.cc-3{background:rgba(201,168,76,.07);border:1.5px solid rgba(201,168,76,.2);}
+.cc-pill{display:inline-block;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:5px;margin-bottom:22px;background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.2);}
+.cc-name{font-family:'Raleway',sans-serif;font-size:20px;font-weight:800;line-height:1.25;margin-bottom:10px;color:var(--white);}
+.cc-desc{font-size:13px;line-height:1.7;margin-bottom:26px;font-weight:300;color:rgba(255,255,255,.45);}
+.cc-features{list-style:none;margin-bottom:30px;}
+.cc-features li{font-size:12px;padding:5px 0;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.55);}
+.cc-features li::before{content:'✓';font-weight:700;color:var(--gold);flex-shrink:0;}
+.cc-footer{display:flex;justify-content:space-between;align-items:flex-end;}
+.cc-price-lbl{font-size:11px;color:rgba(255,255,255,.3);margin-bottom:2px;}
+.cc-price{font-family:'Raleway',sans-serif;font-size:24px;font-weight:800;color:var(--gold);letter-spacing:-.3px;}
+.cc-btn{padding:11px 22px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.13);color:var(--gold);font-family:'Manrope',sans-serif;transition:background .2s,transform .2s;display:inline-block;}
+.cc-btn:hover{background:var(--gold);color:var(--navy);transform:translateY(-2px);}
+
+/* ABOUT */
+.about-sec{background:var(--off-white);}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-illustration{background:var(--navy);border-radius:24px;overflow:hidden;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;}
+.about-text .eyebrow{margin-bottom:14px;}
+.about-text .s-title{margin-bottom:20px;font-size:32px;}
+.about-text p{font-size:15px;color:var(--text-muted);line-height:1.85;font-weight:400;margin-bottom:28px;}
+.about-facts{display:flex;flex-direction:column;gap:14px;}
+.about-fact{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-dark);font-weight:500;}
+.about-fact::before{content:'';width:24px;height:2px;background:var(--gold);flex-shrink:0;}
+
+/* REVIEWS */
+.reviews-sec{background:var(--off-white-2);}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.rv{background:var(--white);border-radius:18px;padding:30px 26px;border:1px solid rgba(13,27,46,.06);transition:transform .25s,box-shadow .25s;}
+.rv:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(13,27,46,.1);}
+.rv-stars{color:var(--gold);font-size:13px;margin-bottom:14px;letter-spacing:2px;}
+.rv-text{font-size:14px;line-height:1.8;color:#3a4a5c;margin-bottom:20px;font-weight:400;}
+.rv-author{display:flex;align-items:center;gap:12px;}
+.rv-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Raleway',sans-serif;font-size:15px;font-weight:700;color:var(--white);flex-shrink:0;}
+.rv-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.rv-lvl{font-size:11px;color:var(--text-muted);}
+
+/* SIGNUP */
+.signup-sec{background:var(--navy-2);position:relative;overflow:hidden;}
+.signup-sec::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%);top:-250px;right:-100px;pointer-events:none;}
+.signup-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1;}
+.signup-title{font-family:'Raleway',sans-serif;font-size:38px;font-weight:800;color:var(--white);line-height:1.18;margin-bottom:14px;letter-spacing:-.5px;}
+.signup-desc{font-size:15px;color:rgba(255,255,255,.45);line-height:1.8;font-weight:400;}
+.signup-perks{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:11px;}
+.signup-perks li{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.6);font-weight:400;}
+.signup-perks li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;}
+.form-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:12px;}
+.form-box-title{font-family:'Raleway',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.form-box input,.form-box select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 17px;color:var(--white);font-family:'Manrope',sans-serif;font-size:14px;font-weight:400;outline:none;transition:border-color .2s,background .2s;width:100%;}
+.form-box input::placeholder{color:rgba(255,255,255,.25);}
+.form-box input:focus,.form-box select:focus{border-color:var(--gold);background:rgba(255,255,255,.09);}
+.form-box select{cursor:pointer;appearance:none;color:rgba(255,255,255,.35);}
+.form-box select.sel{color:var(--white);}
+.form-box select option{background:#142238;color:var(--white);}
+.form-submit{background:var(--gold);color:var(--navy);border:none;border-radius:9px;padding:16px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;margin-top:4px;}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,168,76,.3);background:var(--gold-light);}
+.form-success{display:none;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:9px;padding:16px;color:var(--gold-light);font-size:14px;text-align:center;line-height:1.5;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(6,15,28,.8);backdrop-filter:blur(10px);z-index:500;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--off-white);border-radius:22px;padding:44px;max-width:460px;width:90%;position:relative;animation:modalIn .3s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-close{position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;border:none;background:var(--off-white-2);color:var(--text-muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:5px;margin-bottom:16px;}
+.modal-title{font-family:'Raleway',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+.modal-sub{font-size:14px;color:var(--text-muted);line-height:1.65;margin-bottom:24px;font-weight:400;}
+.modal form{display:flex;flex-direction:column;gap:11px;}
+.modal input,.modal select{background:var(--white);border:1px solid var(--off-white-2);border-radius:9px;padding:14px 17px;color:var(--text-dark);font-family:'Manrope',sans-serif;font-size:14px;font-weight:400;outline:none;transition:border-color .2s;width:100%;}
+.modal input:focus,.modal select:focus{border-color:var(--navy);}
+.modal select{cursor:pointer;appearance:none;color:var(--text-muted);}
+.modal select.sel{color:var(--text-dark);}
+.modal-btn{background:var(--navy);color:var(--white);border:none;border-radius:9px;padding:15px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s;margin-top:4px;}
+.modal-btn:hover{background:var(--navy-4);transform:translateY(-1px);}
+.modal-success{display:none;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:9px;padding:14px;color:var(--gold);font-size:14px;text-align:center;}
+
+/* FOOTER */
+.footer{background:#06101d;}
+.footer-top{padding:64px 80px 44px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;}
+.footer-logo{font-family:'Raleway',sans-serif;font-size:20px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.footer-logo span{color:var(--gold);}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.28);line-height:1.65;font-weight:400;max-width:220px;}
+.footer-col h4{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:18px;}
+.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:10px;font-weight:400;transition:color .2s;}
+.footer-col a:hover{color:var(--gold);}
+.footer-contact a{display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:12px;font-weight:400;transition:color .2s;}
+.footer-contact a:hover{color:var(--gold);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.05);padding:20px 80px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.18);font-weight:400;}
+
+/* DIVIDERS */
+.wv{display:block;width:100%;line-height:0;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .wrap,.visual-strip-inner{padding:0 48px;}
+  nav{padding:0 48px;}
+  .footer-top,.footer-bottom{padding-left:48px;padding-right:48px;}
+}
+@media(max-width:900px){
+  .hero-title{font-size:48px;}
+  .courses-grid,.steps{grid-template-columns:1fr 1fr;gap:2px;}
+  .signup-inner,.about-inner{grid-template-columns:1fr;gap:48px;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .reviews-grid{grid-template-columns:1fr 1fr;}
+  .reviews-grid .rv:last-child{grid-column:1/-1;}
+  .visual-strip-inner{grid-template-columns:1fr 1fr;}
+  .visual-card:last-child{display:none;}
+}
+@media(max-width:768px){
+  nav ul{display:none;}
+  nav{padding:0 24px;}
+  .hero{padding:110px 24px 70px;}
+  .hero-title{font-size:34px;}
+  .hero-stats{flex-direction:column;}
+  .stat{padding:18px 24px;}
+  .stat+.stat{border-left:none;border-top:1px solid rgba(255,255,255,.07);}
+  .wrap,.visual-strip-inner{padding:0 24px;}
+  .section{padding:64px 0;}
+  .s-title{font-size:26px;}
+  .steps,.courses-grid{grid-template-columns:1fr;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .reviews-grid .rv:last-child{grid-column:auto;}
+  .footer-top{grid-template-columns:1fr;gap:28px;padding:40px 24px 28px;}
+  .footer-bottom{padding:16px 24px;flex-direction:column;gap:8px;text-align:center;}
+  .visual-strip-inner{grid-template-columns:1fr;}
+  .visual-card:last-child{display:flex;}
+}
+@media(max-width:480px){
+  .hero-title{font-size:28px;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .btn-main,.btn-ghost{text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#">but<span>School</span></a>
+  <ul>
+    <li><a href="#how">Как работает</a></li>
+    <li><a href="#courses">Курсы</a></li>
+    <li><a href="#reviews">Отзывы</a></li>
+    <li><a href="#signup">Контакты</a></li>
+    <li><a href="#" onclick="openModal();return false;" class="nav-cta">Бесплатный урок</a></li>
+  </ul>
+</nav>
+
+<div class="ticker">
+  <div class="ticker-dot"></div>
+  <span>Сейчас онлайн:</span>
+  <span class="ticker-count" id="onlineCount">—</span>
+  <span>студентов</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <svg width="900" height="900" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.06">
+      <circle cx="450" cy="450" r="400" stroke="#c9a84c" stroke-width="1"/>
+      <circle cx="450" cy="450" r="300" stroke="#c9a84c" stroke-width="0.8"/>
+      <circle cx="450" cy="450" r="200" stroke="#c9a84c" stroke-width="0.6"/>
+      <circle cx="450" cy="450" r="100" stroke="#c9a84c" stroke-width="0.5"/>
+    </svg>
+  </div>
+  <div class="glow-center"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">Онлайн-школа английского языка</div>
+    <h1 class="hero-title">
+      Заговори<br>по-английски
+      <em>уверенно</em>
+    </h1>
+    <p class="hero-sub">Живые уроки, практика с первого дня и понятные объяснения — без зубрёжки и скуки.</p>
+    <div class="hero-actions">
+      <a href="#" onclick="openModal();return false;" class="btn-main">Первый урок бесплатно →</a>
+      <a href="#courses" class="btn-ghost">Смотреть курсы</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-n">1 200+</span>
+        <span class="stat-l">студентов учатся</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">94%</span>
+        <span class="stat-l">доходят до конца</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">3 мес</span>
+        <span class="stat-l">до разговорного</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">4.9 ★</span>
+        <span class="stat-l">средняя оценка</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL CARDS -->
+<div class="visual-strip">
+  <div class="visual-strip-inner">
+    <div class="visual-card">
+      <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="200" fill="#0d1b2e"/>
+        <rect x="60" y="30" width="280" height="130" rx="10" fill="#0a1520" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.3"/>
+        <circle cx="160" cy="95" r="32" fill="#1a2d47" stroke="#c9a84c" stroke-width="1.2" stroke-opacity="0.4"/>
+        <circle cx="240" cy="95" r="32" fill="#203555" stroke="#c9a84c" stroke-width="1.2" stroke-opacity="0.3"/>
+        <circle cx="160" cy="86" r="10" fill="#c9a84c" opacity="0.55"/>
+        <circle cx="240" cy="86" r="10" fill="#c9a84c" opacity="0.4"/>
+        <rect x="147" y="104" width="26" height="7" rx="3.5" fill="#c9a84c" opacity="0.25"/>
+        <rect x="227" y="104" width="26" height="7" rx="3.5" fill="#c9a84c" opacity="0.2"/>
+        <circle cx="326" cy="44" r="4" fill="#4ade80" opacity="0.85"/>
+      </svg>
+      <div class="visual-card-label">
+        <strong>Живые уроки</strong>
+        <span>Не записи — реальный диалог</span>
+      </div>
+    </div>
+    <div class="visual-card">
+      <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c9a84c"/>
+            <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.15"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="200" fill="#142238"/>
+        <line x1="50" y1="40" x2="370" y2="40" stroke="white" stroke-opacity="0.05" stroke-width="1"/>
+        <line x1="50" y1="80" x2="370" y2="80" stroke="white" stroke-opacity="0.05" stroke-width="1"/>
+        <line x1="50" y1="120" x2="370" y2="120" stroke="white" stroke-opacity="0.05" stroke-width="1"/>
+        <rect x="60" y="128" width="34" height="32" rx="4" fill="url(#bg)" opacity="0.45"/>
+        <rect x="110" y="108" width="34" height="52" rx="4" fill="url(#bg)" opacity="0.58"/>
+        <rect x="160" y="88" width="34" height="72" rx="4" fill="url(#bg)" opacity="0.7"/>
+        <rect x="210" y="62" width="34" height="98" rx="4" fill="url(#bg)" opacity="0.82"/>
+        <rect x="260" y="38" width="34" height="122" rx="4" fill="#c9a84c" opacity="0.9"/>
+        <text x="77" y="172" fill="white" font-size="9" text-anchor="middle" opacity="0.35" font-family="Manrope">A1</text>
+        <text x="127" y="172" fill="white" font-size="9" text-anchor="middle" opacity="0.35" font-family="Manrope">A2</text>
+        <text x="177" y="172" fill="white" font-size="9" text-anchor="middle" opacity="0.35" font-family="Manrope">B1</text>
+        <text x="227" y="172" fill="white" font-size="9" text-anchor="middle" opacity="0.35" font-family="Manrope">B2</text>
+        <text x="277" y="172" fill="#c9a84c" font-size="9" text-anchor="middle" font-family="Manrope">C1</text>
+      </svg>
+      <div class="visual-card-label">
+        <strong>Быстрый прогресс</strong>
+        <span>Результат с первого месяца</span>
+      </div>
+    </div>
+    <div class="visual-card">
+      <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="200" fill="#1a2d47"/>
+        <rect x="40" y="26" width="175" height="38" rx="12" fill="#0d1b2e" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.3"/>
+        <text x="127" y="50" fill="white" font-size="13" text-anchor="middle" font-family="Manrope" opacity="0.8">How are you?</text>
+        <rect x="185" y="78" width="175" height="38" rx="12" fill="#203555" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.25"/>
+        <text x="272" y="102" fill="#c9a84c" font-size="13" text-anchor="middle" font-family="Manrope" opacity="0.9">I'm great!</text>
+        <rect x="40" y="128" width="160" height="38" rx="12" fill="#0d1b2e" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.25"/>
+        <text x="120" y="152" fill="white" font-size="13" text-anchor="middle" font-family="Manrope" opacity="0.8">Let's practice!</text>
+        <circle cx="350" cy="40" r="4" fill="#4ade80" opacity="0.8"/>
+      </svg>
+      <div class="visual-card-label">
+        <strong>Говорим с первого дня</strong>
+        <span>Практика без стеснения</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="eyebrow">Как это работает</div>
+    <div class="s-title">Четыре шага до результата</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Тест уровня</div>
+        <p class="step-desc">Проходишь короткий тест — мы точно определяем твой уровень и цели.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Подбор курса</div>
+        <p class="step-desc">Менеджер подбирает программу и время занятий под твой график.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Первый урок</div>
+        <p class="step-desc">Пробный урок с преподавателем совершенно бесплатно — без обязательств.</p>
+        <span class="step-free">Бесплатно</span>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Начинаешь учиться</div>
+        <p class="step-desc">Живые занятия, домашние задания и постоянная поддержка куратора.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wv" viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,0 C360,70 1080,0 1440,50 L1440,70 L0,70 Z" fill="var(--navy)"/>
+  <path d="M0,0 C360,70 1080,0 1440,50 L1440,0 Z" fill="var(--off-white)"/>
+</svg>
+
+<!-- COURSES -->
+<section class="section courses-sec" id="courses">
+  <div class="wrap">
+    <div class="eyebrow">Программы</div>
+    <div class="s-title s-title-white">Выбери свой уровень</div>
+    <div class="courses-grid">
+      <div class="cc cc-1">
+        <div class="cc-pill">Beginner</div>
+        <h3 class="cc-name">С нуля до первого разговора</h3>
+        <p class="cc-desc">Для тех, кто никогда не учил или забыл всё со школы. Строим с основ.</p>
+        <ul class="cc-features">
+          <li>2 урока в неделю</li>
+          <li>Куратор на связи 24/7</li>
+          <li>Разговорная практика</li>
+        </ul>
+        <div class="cc-footer">
+          <div><div class="cc-price-lbl">от</div><div class="cc-price">4 900 ₽/мес</div></div>
+          <button class="cc-btn" onclick="openModal()">Записаться</button>
+        </div>
+      </div>
+      <div class="cc cc-2">
+        <div class="cc-pill">Intermediate</div>
+        <h3 class="cc-name">Прокачай разговорный</h3>
+        <p class="cc-desc">Знаешь базу, но теряешься в живом разговоре? Именно это мы и исправим.</p>
+        <ul class="cc-features">
+          <li>3 урока в неделю</li>
+          <li>Дискуссионные клубы</li>
+          <li>Проверка произношения</li>
+        </ul>
+        <div class="cc-footer">
+          <div><div class="cc-price-lbl">от</div><div class="cc-price">6 500 ₽/мес</div></div>
+          <button class="cc-btn" onclick="openModal()">Записаться</button>
+        </div>
+      </div>
+      <div class="cc cc-3">
+        <div class="cc-pill">Advanced</div>
+        <h3 class="cc-name">Business English</h3>
+        <p class="cc-desc">Переговоры, письма, презентации — английский для карьеры и работы за рубежом.</p>
+        <ul class="cc-features">
+          <li>3 урока в неделю</li>
+          <li>Бизнес-кейсы и симуляции</li>
+          <li>Подготовка к IELTS / TOEFL</li>
+        </ul>
+        <div class="cc-footer">
+          <div><div class="cc-price-lbl">от</div><div class="cc-price">8 900 ₽/мес</div></div>
+          <button class="cc-btn" onclick="openModal()">Записаться</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wv" viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,70 C480,0 960,70 1440,20 L1440,70 Z" fill="var(--off-white)"/>
+  <path d="M0,70 C480,0 960,70 1440,20 L1440,0 L0,0 Z" fill="var(--navy)"/>
+</svg>
+
+<!-- ABOUT -->
+<section class="section about-sec">
+  <div class="wrap">
+    <div class="about-inner">
+      <div class="about-illustration">
+        <svg width="100%" height="100%" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="abg" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stop-color="#1a2d47"/>
+              <stop offset="100%" stop-color="#0d1b2e"/>
+            </radialGradient>
+          </defs>
+          <rect width="480" height="360" fill="url(#abg)"/>
+          <circle cx="240" cy="180" r="155" stroke="#c9a84c" stroke-width="0.6" fill="none" opacity="0.1"/>
+          <circle cx="240" cy="180" r="110" stroke="#c9a84c" stroke-width="0.5" fill="none" opacity="0.08"/>
+          <!-- teacher -->
+          <circle cx="240" cy="148" r="42" fill="#203555" stroke="#c9a84c" stroke-width="1.5" stroke-opacity="0.35"/>
+          <circle cx="240" cy="134" r="15" fill="#c9a84c" opacity="0.5"/>
+          <rect x="215" y="156" width="50" height="16" rx="8" fill="#c9a84c" opacity="0.22"/>
+          <!-- students -->
+          <circle cx="112" cy="245" r="30" fill="#1a2d47" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.28"/>
+          <circle cx="112" cy="237" r="11" fill="#c9a84c" opacity="0.38"/>
+          <circle cx="368" cy="245" r="30" fill="#1a2d47" stroke="#c9a84c" stroke-width="1" stroke-opacity="0.28"/>
+          <circle cx="368" cy="237" r="11" fill="#c9a84c" opacity="0.38"/>
+          <circle cx="130" cy="122" r="25" fill="#1a2d47" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.22"/>
+          <circle cx="130" cy="115" r="9" fill="#c9a84c" opacity="0.32"/>
+          <circle cx="350" cy="122" r="25" fill="#1a2d47" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.22"/>
+          <circle cx="350" cy="115" r="9" fill="#c9a84c" opacity="0.32"/>
+          <!-- lines -->
+          <line x1="198" y1="165" x2="142" y2="218" stroke="#c9a84c" stroke-width="0.7" stroke-opacity="0.18" stroke-dasharray="4 4"/>
+          <line x1="282" y1="165" x2="338" y2="218" stroke="#c9a84c" stroke-width="0.7" stroke-opacity="0.18" stroke-dasharray="4 4"/>
+          <line x1="210" y1="140" x2="155" y2="126" stroke="#c9a84c" stroke-width="0.7" stroke-opacity="0.14" stroke-dasharray="4 4"/>
+          <line x1="270" y1="140" x2="325" y2="126" stroke="#c9a84c" stroke-width="0.7" stroke-opacity="0.14" stroke-dasharray="4 4"/>
+          <!-- bottom label -->
+          <rect x="130" y="305" width="220" height="34" rx="9" fill="rgba(201,168,76,0.08)" stroke="#c9a84c" stroke-width="0.8" stroke-opacity="0.25"/>
+          <text x="240" y="327" fill="#c9a84c" font-size="12" text-anchor="middle" font-family="Manrope,sans-serif" opacity="0.8">butSchool · с 2026 года</text>
+        </svg>
+      </div>
+      <div class="about-text">
+        <div class="eyebrow">О школе</div>
+        <div class="s-title">Почему выбирают butSchool</div>
+        <p>Мы не продаём записи лекций. Каждый урок — живой диалог с преподавателем, практика и разбор ошибок прямо в процессе.</p>
+        <div class="about-facts">
+          <div class="about-fact">Преподаватели с опытом 5+ лет</div>
+          <div class="about-fact">Программа под каждого студента</div>
+          <div class="about-fact">Гарантия возврата денег</div>
+          <div class="about-fact">Результат уже через 3 месяца</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wv" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,0 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="var(--off-white-2)"/>
+  <path d="M0,0 C480,60 960,0 1440,40 L1440,0 Z" fill="var(--off-white)"/>
+</svg>
+
+<!-- REVIEWS -->
+<section class="section reviews-sec" id="reviews">
+  <div class="wrap">
+    <div class="eyebrow">Отзывы</div>
+    <div class="s-title">Что говорят студенты</div>
+    <div class="reviews-grid">
+      <div class="rv">
+        <div class="rv-stars">★★★★★</div>
+        <p class="rv-text">Через три месяца смотрю сериалы без субтитров. Раньше казалось нереальным — теперь просто привычка.</p>
+        <div class="rv-author">
+          <div class="rv-av" style="background:var(--navy)">А</div>
+          <div><div class="rv-name">Анна К.</div><div class="rv-lvl">Beginner → Intermediate</div></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="rv-stars">★★★★★</div>
+        <p class="rv-text">Прошёл Business English, получил оффер в международную компанию. Курс окупился уже в первый месяц.</p>
+        <div class="rv-author">
+          <div class="rv-av" style="background:var(--navy-4)">М</div>
+          <div><div class="rv-name">Максим Р.</div><div class="rv-lvl">Business English</div></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="rv-stars">★★★★★</div>
+        <p class="rv-text">Пробовала много курсов — здесь первый раз не бросила. Живые уроки и объяснения без воды, это редкость.</p>
+        <div class="rv-author">
+          <div class="rv-av" style="background:var(--gold);color:var(--navy)">Д</div>
+          <div><div class="rv-name">Дарья В.</div><div class="rv-lvl">Intermediate</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wv" viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,70 C360,0 1080,70 1440,20 L1440,70 Z" fill="var(--navy-2)"/>
+  <path d="M0,70 C360,0 1080,70 1440,20 L1440,0 L0,0 Z" fill="var(--off-white-2)"/>
+</svg>
+
+<!-- SIGNUP -->
+<section class="signup-sec section" id="signup">
+  <div class="wrap">
+    <div class="signup-inner">
+      <div>
+        <div class="eyebrow">Запись на курс</div>
+        <h2 class="signup-title">Начни уже сегодня</h2>
+        <p class="signup-desc">Оставь заявку — мы свяжемся в течение часа и подберём подходящий курс.</p>
+        <ul class="signup-perks">
+          <li>Первый урок бесплатно — без обязательств</li>
+          <li>Гибкое расписание под тебя</li>
+          <li>Возврат денег если не понравится</li>
+          <li>Куратор на связи весь курс</li>
+        </ul>
+      </div>
+      <div class="form-box">
+        <div class="form-box-title">Оставь заявку</div>
+        <input type="text" placeholder="Твоё имя" id="s-name"/>
+        <input type="tel" placeholder="Телефон или Telegram" id="s-contact"/>
+        <select id="s-level" onchange="this.classList.add('sel')">
+          <option value="" disabled selected>Выбери уровень</option>
+          <option>Beginner — с нуля</option>
+          <option>Intermediate — есть база</option>
+          <option>Advanced — Business English</option>
+        </select>
+        <button class="form-submit" onclick="submitMain()">Записаться на курс →</button>
+        <div class="form-success" id="s-success">✓ Заявка принята! Напишем тебе в течение часа.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wv" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,0 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="#06101d"/>
+  <path d="M0,0 C360,60 1080,0 1440,40 L1440,0 Z" fill="var(--navy-2)"/>
+</svg>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">but<span>School</span></div>
+      <p class="footer-tagline">Онлайн-школа английского языка. Живые уроки, реальный результат.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Курсы</h4>
+      <a href="#courses">Beginner</a>
+      <a href="#courses">Intermediate</a>
+      <a href="#courses">Business English</a>
+    </div>
+    <div class="footer-col">
+      <h4>Школа</h4>
+      <a href="#how">Как это работает</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#" onclick="openModal();return false;">Пробный урок</a>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>Контакты</h4>
+      <a href="mailto:butSchool@gmail.com">✉ butSchool@gmail.com</a>
+      <a href="tel:+79109322723">📞 +7 910 932 27 23</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 butSchool — Английский язык онлайн</p>
+    <p>Все права защищены</p>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-badge">🎁 Бесплатно</div>
+    <h2 class="modal-title">Первый урок — в подарок</h2>
+    <p class="modal-sub">Запишись на бесплатный пробный урок. Без оплаты и обязательств — просто попробуй.</p>
+    <form onsubmit="submitModal(event)">
+      <input type="text" placeholder="Твоё имя" id="m-name" required/>
+      <input type="tel" placeholder="Телефон или Telegram" id="m-contact" required/>
+      <select id="m-level" onchange="this.classList.add('sel')" required>
+        <option value="" disabled selected>Твой уровень</option>
+        <option>Beginner — с нуля</option>
+        <option>Intermediate — есть база</option>
+        <option>Advanced — Business English</option>
+      </select>
+      <button type="submit" class="modal-btn">Записаться бесплатно →</button>
+      <div class="modal-success" id="m-success">🎉 Отлично! Напишем тебе в течение часа.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);});
+let count=Math.floor(Math.random()*(180-110)+110);
+document.getElementById('onlineCount').textContent=count;
+setInterval(()=>{count+=Math.floor(Math.random()*7)-3;count=Math.max(90,Math.min(210,count));document.getElementById('onlineCount').textContent=count;},4000);
+function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
+function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal();}
+const TG_TOKEN='8755134149:AAEihLr4GfxLgBAfhh3gPBW-P9NCxX18g-g';
+const TG_CHAT='6306773966';
+async function sendTG(name,contact,level,src){
+  const text=`🎓 Новая заявка (${src})\n\n👤 ${name}\n📞 ${contact}\n📚 ${level}`;
+  try{await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CHAT,text})});}catch(e){}
+}
+async function submitModal(e){
+  e.preventDefault();
+  const n=document.getElementById('m-name').value.trim();
+  const c=document.getElementById('m-contact').value.trim();
+  const l=document.getElementById('m-level').value;
+  if(!n||!c||!l)return;
+  const btn=document.querySelector('.modal-btn');
+  btn.textContent='Отправляем...';btn.disabled=true;
+  await sendTG(n,c,l,'Модальное окно');
+  btn.style.display='none';
+  document.getElementById('m-success').style.display='block';
+  setTimeout(()=>closeModal(),3000);
+}
+async function submitMain(){
+  const n=document.getElementById('s-name').value.trim();
+  const c=document.getElementById('s-contact').value.trim();
+  const l=document.getElementById('s-level').value;
+  if(!n||!c||!l){alert('Заполни все поля');return;}
+  const btn=document.querySelector('.form-submit');
+  btn.textContent='Отправляем...';btn.disabled=true;
+  await sendTG(n,c,l,'Основная форма');
+  btn.style.display='none';
+  document.getElementById('s-success').style.display='block';
+}
+</script>
+</body>
+</html>
